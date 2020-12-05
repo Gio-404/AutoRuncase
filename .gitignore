@@ -1,0 +1,6 @@
+*.pyc
+*.txt
+*.csv
+*.log
+.idea
+.vscode
