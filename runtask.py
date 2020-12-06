@@ -33,11 +33,14 @@ class OpenCloudSinger(object):
         while i < 10:
             try:
                 time.sleep(2)
-                resp_run = requests.post(self.base_url+"/api/task/1623/running", headers=headers, timeout=5)  # 执行任务
+                resp_run = requests.post(
+                    self.base_url+"/api/task/1623/running", headers=headers, timeout=5)  # 执行任务
                 self.mylog.info(resp_run.status_code)
                 if resp_run.status_code == 200:
-                    json_dict_run = json.loads(json.loads(resp_run.content)["data"])
-                    running_id = str(json_dict_run["task_running_id"])  # 获取任务运行id
+                    json_dict_run = json.loads(
+                        json.loads(resp_run.content)["data"])
+                    running_id = str(
+                        json_dict_run["task_running_id"])  # 获取任务运行id
                     return running_id
                 else:
                     i += 1                                        # 出现异常时进行重试
@@ -53,10 +56,12 @@ class OpenCloudSinger(object):
                 time.sleep(2)
                 resp_report = requests.get(self.base_url + "/api/task/running/" + run_id + "/summary",     # 查看任务执行结果
                                            headers=headers, timeout=5)
-                self.mylog.info("Status code:%s Response content:%s" % (resp_report.status_code, resp_report.content))
+                self.mylog.info("Status code:%s Response content:%s" % (
+                    resp_report.status_code, resp_report.content))
                 if resp_report.status_code == 200:
                     json_dict_report = json.loads(resp_report.content)["data"]
-                    if json_dict_report["duration"] == "0":                # 判断是否已经执行完毕，如果没有执行完成再次查询
+                    # 判断是否已经执行完毕，如果没有执行完成再次查询
+                    if json_dict_report["duration"] == "0":
                         i += 1
                     else:
                         return json_dict_report["case_summary"]
@@ -68,7 +73,8 @@ class OpenCloudSinger(object):
         report = self.get_report()
         success_count = 0
         fail_count = 0
-        reportpath = os.path.join(resultpath, "report_" + datetime.now().strftime("%H%M%S") + ".txt")
+        reportpath = os.path.join(
+            resultpath, "report_" + datetime.now().strftime("%H%M%S") + ".txt")
         for i in report:
             if i["pass_rate"] == "FAIL(0/1/1)":    # 校验case是否通过
                 fail_count += 1
@@ -81,9 +87,9 @@ class OpenCloudSinger(object):
                     file.writelines("case_id:%d" % (i["case_id"]) + "  case_name:%s" % (i["case_name"]) +
                                     "  test_result:successful" + "\n")
         with open(reportpath, "a") as file:
-            file.writelines("Test Failed: %d Test Successful: %d" % (fail_count, success_count))
+            file.writelines("Test Failed: %d Test Successful: %d" %
+                            (fail_count, success_count))
         if fail_count > 0:
             return False, str(fail_count)
         else:
             return True, str(len(report))
-

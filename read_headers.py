@@ -13,4 +13,3 @@ def get_headers():
         headers = json.loads(content)
 
     return headers
-

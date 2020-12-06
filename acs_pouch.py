@@ -18,7 +18,7 @@ class Pouch(object):
         self.updateid = updateid
         self.mylog = mylogger.mylogger()
         self.base_url = "https://fa022db3-07a2-4d6f-acad-c611de5895dc.mock.pstmn.io"
-    
+
     # 从csv读取ip类
     @staticmethod
     def get_ip():
@@ -59,4 +59,3 @@ class Pouch(object):
             except requests.exceptions.RequestException as e:
                 self.mylog.info(e)
         self.write_result(data)
-

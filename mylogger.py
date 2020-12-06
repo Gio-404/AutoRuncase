@@ -19,10 +19,12 @@ def mylogger():
     if not logger.handlers:
         rf_handler = handlers.TimedRotatingFileHandler('log/all.log', when='midnight', interval=1, backupCount=7,
                                                        atTime=datetime.time(0, 0, 0, 0))
-        rf_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+        rf_handler.setFormatter(logging.Formatter(
+            "%(asctime)s - %(levelname)s - %(message)s"))
         f_handler = logging.FileHandler("log/error.log")
         f_handler.setLevel(logging.ERROR)
-        f_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(filename)s[:%(lineno)d] - %(message)s"))
+        f_handler.setFormatter(logging.Formatter(
+            "%(asctime)s - %(levelname)s - %(filename)s[:%(lineno)d] - %(message)s"))
 
         console_handler = logging.StreamHandler()
         console_handler.setLevel(logging.INFO)
